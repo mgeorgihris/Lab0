@@ -1,13 +1,12 @@
-
 import click
 import json
 
 import preprocessing
 
-
 # =====================================================
 # GENERAL CLI GROUP
 # =====================================================
+
 
 @click.group()
 def cli():
@@ -18,6 +17,7 @@ def cli():
 # =====================================================
 # 1. CLEAN GROUP
 # =====================================================
+
 
 @cli.group()
 def clean():
@@ -44,7 +44,7 @@ def remove_missing(values):
     "--fill-value",
     default="0",
     show_default=True,
-    help="Value used to replace missing values."
+    help="Value used to replace missing values.",
 )
 def fill_missing(values, fill_value):
     """
@@ -53,15 +53,14 @@ def fill_missing(values, fill_value):
     Example:
     python cli.py clean fill-missing 10 "" 30 --fill-value 99
     """
-    result = preprocessing.fill_missing_values(
-        list(values), fill_value
-    )
+    result = preprocessing.fill_missing_values(list(values), fill_value)
     click.echo(f"Result: {result}")
 
 
 # =====================================================
 # 2. NUMERIC GROUP
 # =====================================================
+
 
 @cli.group()
 def numeric():
@@ -72,16 +71,10 @@ def numeric():
 @numeric.command("normalize")
 @click.argument("values", nargs=-1, type=float)
 @click.option(
-    "--new-min",
-    default=0.0,
-    show_default=True,
-    help="Minimum value of the new range."
+    "--new-min", default=0.0, show_default=True, help="Minimum value of the new range."
 )
 @click.option(
-    "--new-max",
-    default=1.0,
-    show_default=True,
-    help="Maximum value of the new range."
+    "--new-max", default=1.0, show_default=True, help="Maximum value of the new range."
 )
 def normalize(values, new_min, new_max):
     """
@@ -90,9 +83,7 @@ def normalize(values, new_min, new_max):
     Example:
     python cli.py numeric normalize 10 20 30 40
     """
-    result = preprocessing.normalize(
-        list(values), new_min, new_max
-    )
+    result = preprocessing.normalize(list(values), new_min, new_max)
     click.echo(f"Result: {result}")
 
 
@@ -112,16 +103,10 @@ def standardize(values):
 @numeric.command("clip")
 @click.argument("values", nargs=-1, type=float)
 @click.option(
-    "--min-value",
-    default=0.0,
-    show_default=True,
-    help="Minimum value allowed."
+    "--min-value", default=0.0, show_default=True, help="Minimum value allowed."
 )
 @click.option(
-    "--max-value",
-    default=1.0,
-    show_default=True,
-    help="Maximum value allowed."
+    "--max-value", default=1.0, show_default=True, help="Maximum value allowed."
 )
 def clip(values, min_value, max_value):
     """
@@ -130,9 +115,7 @@ def clip(values, min_value, max_value):
     Example:
     python cli.py numeric clip -2 0.5 2 --min-value 0 --max-value 1
     """
-    result = preprocessing.clip_values(
-        list(values), min_value, max_value
-    )
+    result = preprocessing.clip_values(list(values), min_value, max_value)
     click.echo(f"Result: {result}")
 
 
@@ -165,6 +148,7 @@ def log_transform(values):
 # =====================================================
 # 3. TEXT GROUP
 # =====================================================
+
 
 @cli.group()
 def text():
@@ -203,7 +187,7 @@ def remove_punctuation(input_text):
 @click.option(
     "--stop-word",
     multiple=True,
-    help="A stop word to remove. Can be specified multiple times."
+    help="A stop word to remove. Can be specified multiple times.",
 )
 def remove_stop_words(input_text, stop_word):
     """
@@ -212,15 +196,14 @@ def remove_stop_words(input_text, stop_word):
     Example:
     python cli.py text remove-stop-words "this is a test" --stop-word is --stop-word a
     """
-    result = preprocessing.remove_stop_words(
-        input_text, list(stop_word)
-    )
+    result = preprocessing.remove_stop_words(input_text, list(stop_word))
     click.echo(f"Result: {result}")
 
 
 # =====================================================
 # 4. STRUCT GROUP
 # =====================================================
+
 
 @cli.group()
 def struct():
@@ -231,10 +214,7 @@ def struct():
 @struct.command("shuffle")
 @click.argument("values", nargs=-1, type=str)
 @click.option(
-    "--seed",
-    type=int,
-    default=None,
-    help="Integer seed for reproducible shuffling."
+    "--seed", type=int, default=None, help="Integer seed for reproducible shuffling."
 )
 def shuffle(values, seed):
     """
@@ -262,10 +242,8 @@ def flatten(values):
         nested_list = json.loads(values)
         result = preprocessing.flatten_list(nested_list)
         click.echo(f"Result: {result}")
-    except (json.JSONDecodeError, TypeError):
-        raise click.BadParameter(
-            "Please provide a valid JSON list of lists."
-        )
+    except json.JSONDecodeError, TypeError:
+        raise click.BadParameter("Please provide a valid JSON list of lists.")
 
 
 @struct.command("unique")
@@ -287,4 +265,3 @@ def unique(values):
 
 if __name__ == "__main__":
     cli()
-
