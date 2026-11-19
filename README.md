@@ -27,7 +27,7 @@ The project uses [uv](https://docs.astral.sh/uv/) to manage the virtual environm
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/<your-user>/Lab0.git
+git clone https://github.com/<mgeorgihris/Lab0.git
 cd Lab0
 ```
 
