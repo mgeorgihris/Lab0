@@ -1,5 +1,3 @@
-# Lab0
-
 # Lab0 - Fundamentals of Continuous Integration
 
 This repository contains the code for **Lab 0** of the MLOps course. The goal of the lab is to understand the basic elements of Continuous Integration (CI): linting, code formatting and testing.
